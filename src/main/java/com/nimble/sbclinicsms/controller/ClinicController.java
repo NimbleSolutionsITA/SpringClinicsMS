@@ -1,8 +1,9 @@
 package com.nimble.sbclinicsms.controller;
 
-import com.nimble.sbclinicsms.model.Clinic;
+import com.nimble.sbclinicsms.data.vo.ClinicVO;
 import com.nimble.sbclinicsms.services.ClinicServices;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,47 +12,32 @@ import java.util.List;
 @RequestMapping("/clinic")
 public class ClinicController {
 
-    private final ClinicServices services = new ClinicServices();
+    @Autowired
+    private ClinicServices service;
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Clinic> findAll() {
-        return services.findAll();
+    @GetMapping
+    public List<ClinicVO> findAll() {
+        return service.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Clinic findById(@PathVariable("id") Long id) {
-        return services.findById(id);
+    @GetMapping(value = "/{id}")
+    public ClinicVO findById(@PathVariable("id") Long id) {
+        return service.findById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Clinic create(@RequestBody Clinic clinic) {
-        return services.create(clinic);
+    @PostMapping
+    public ClinicVO create(@RequestBody ClinicVO clinic) {
+        return service.create(clinic);
     }
 
-    @RequestMapping(method = RequestMethod.PUT,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Clinic update(@RequestBody Clinic clinic) {
-        return services.update(clinic);
+    @PutMapping
+    public ClinicVO update(@RequestBody ClinicVO clinic) {
+        return service.update(clinic);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") Long id) {
-        services.delete(id);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
-
-    @RequestMapping(value = "/initialize", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void initialize() {
-        Clinic ghc = services.mockGHC();
-
-        int i = 0;
-        while (i < 30) {
-            services.mockClinic(ghc.getId());
-            i++;
-        }
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.nimble.sbclinicsms.repository;
 
-import com.nimble.sbclinicsms.model.Clinic;
+import com.nimble.sbclinicsms.data.model.Clinic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
