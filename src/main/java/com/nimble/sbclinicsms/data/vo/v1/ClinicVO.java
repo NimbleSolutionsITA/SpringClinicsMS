@@ -1,4 +1,4 @@
-package com.nimble.sbclinicsms.data.vo;
+package com.nimble.sbclinicsms.data.vo.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,9 +13,7 @@ public class ClinicVO implements Serializable {
     private Boolean isGroup;
     private Long groupId;
     private String logo;
-    private String address;
-    private String latitude;
-    private String longitude;
+    private String googlePlaceId;
     private String businessName;
     private String businessAddress;
     private String taxNumber;
@@ -66,28 +64,12 @@ public class ClinicVO implements Serializable {
         this.logo = logo;
     }
 
-    public String getAddress() {
-        return address;
+    public String getGooglePlaceId() {
+        return googlePlaceId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setGooglePlaceId(String googlePlaceId) {
+        this.googlePlaceId = googlePlaceId;
     }
 
     public String getBusinessName() {
@@ -140,9 +122,7 @@ public class ClinicVO implements Serializable {
                 Objects.equals(isGroup, clinicVO.isGroup) &&
                 Objects.equals(getGroupId(), clinicVO.getGroupId()) &&
                 Objects.equals(getLogo(), clinicVO.getLogo()) &&
-                Objects.equals(getAddress(), clinicVO.getAddress()) &&
-                Objects.equals(getLatitude(), clinicVO.getLatitude()) &&
-                Objects.equals(getLongitude(), clinicVO.getLongitude()) &&
+                Objects.equals(getGooglePlaceId(), clinicVO.getGooglePlaceId()) &&
                 Objects.equals(getBusinessName(), clinicVO.getBusinessName()) &&
                 Objects.equals(getBusinessAddress(), clinicVO.getBusinessAddress()) &&
                 Objects.equals(getTaxNumber(), clinicVO.getTaxNumber()) &&
@@ -152,6 +132,6 @@ public class ClinicVO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getAddress(), getLatitude(), getLongitude(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
+        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
     }
 }

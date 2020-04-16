@@ -22,12 +22,8 @@ public class Clinic implements Serializable {
     private Long groupId;
     @Column(nullable = false, length = 10)
     private String logo;
-    @Column(nullable = false)
-    private String address;
-    @Column(nullable = false, length = 10)
-    private String latitude;
-    @Column(nullable = false, length = 10)
-    private String longitude;
+    @Column(name="google_place_id", nullable = false)
+    private String googlePlaceId;
     @Column(name="business_name", nullable = false, length = 100)
     private String businessName;
     @Column(name="business_address", nullable = false, length = 100)
@@ -83,28 +79,12 @@ public class Clinic implements Serializable {
         this.logo = logo;
     }
 
-    public String getAddress() {
-        return address;
+    public String getGooglePlaceId() {
+        return googlePlaceId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setGooglePlaceId(String googlePlaceId) {
+        this.googlePlaceId = googlePlaceId;
     }
 
     public String getBusinessName() {
@@ -152,23 +132,21 @@ public class Clinic implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Clinic clinic = (Clinic) o;
-        return getId().equals(clinic.getId()) &&
-                getName().equals(clinic.getName()) &&
-                isGroup.equals(clinic.isGroup) &&
+        return Objects.equals(getId(), clinic.getId()) &&
+                Objects.equals(getName(), clinic.getName()) &&
+                Objects.equals(isGroup, clinic.isGroup) &&
                 Objects.equals(getGroupId(), clinic.getGroupId()) &&
-                getLogo().equals(clinic.getLogo()) &&
-                getAddress().equals(clinic.getAddress()) &&
-                getLatitude().equals(clinic.getLatitude()) &&
-                getLongitude().equals(clinic.getLongitude()) &&
-                getBusinessName().equals(clinic.getBusinessName()) &&
-                getBusinessAddress().equals(clinic.getBusinessAddress()) &&
-                getTaxNumber().equals(clinic.getTaxNumber()) &&
+                Objects.equals(getLogo(), clinic.getLogo()) &&
+                Objects.equals(getGooglePlaceId(), clinic.getGooglePlaceId()) &&
+                Objects.equals(getBusinessName(), clinic.getBusinessName()) &&
+                Objects.equals(getBusinessAddress(), clinic.getBusinessAddress()) &&
+                Objects.equals(getTaxNumber(), clinic.getTaxNumber()) &&
                 Objects.equals(getFiscalCode(), clinic.getFiscalCode()) &&
                 Objects.equals(getShareCapital(), clinic.getShareCapital());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getAddress(), getLatitude(), getLongitude(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
+        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
     }
 }

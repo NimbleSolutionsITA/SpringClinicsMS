@@ -1,7 +1,7 @@
-package com.nimble.sbclinicsms.converter.mocks;
+package com.nimble.sbclinicsms.parser.mocks;
 
 import com.nimble.sbclinicsms.data.model.Clinic;
-import com.nimble.sbclinicsms.data.vo.ClinicVO;
+import com.nimble.sbclinicsms.data.vo.v1.ClinicVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class MockClinic {
     }
 
     public List<Clinic> mockEntityList() {
-        List<Clinic> Clinics = new ArrayList<Clinic>();
+        List<Clinic> Clinics = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
             Clinics.add(mockEntity(i));
         }
@@ -37,9 +37,7 @@ public class MockClinic {
         Clinic.setName("Name Test" + number);
         Clinic.setLogo("Logo Test" + number);
         Clinic.setGroup((number % 2) == 0);
-        Clinic.setAddress("Address Test" + number);
-        Clinic.setLatitude("Latitude Test" + number);
-        Clinic.setLongitude("Longitude Test" + number);
+        Clinic.setGooglePlaceId("Google Place Id Test" + number);
         Clinic.setBusinessName("Business Name Test" + number);
         Clinic.setBusinessAddress("Business Address Test" + number);
         Clinic.setTaxNumber("Tax Number Test" + number);
@@ -54,9 +52,7 @@ public class MockClinic {
         Clinic.setName("Name Test" + number);
         Clinic.setLogo("Logo Test" + number);
         Clinic.setGroup((number % 2) == 0);
-        Clinic.setAddress("Address Test" + number);
-        Clinic.setLatitude("Latitude Test" + number);
-        Clinic.setLongitude("Longitude Test" + number);
+        Clinic.setGooglePlaceId("Google Place Id Test" + number);
         Clinic.setBusinessName("Business Name Test" + number);
         Clinic.setBusinessAddress("Business Address Test" + number);
         Clinic.setTaxNumber("Tax Number Test" + number);
