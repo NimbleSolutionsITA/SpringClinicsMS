@@ -35,17 +35,12 @@ public class ClinicServices {
     }
 
     public ClinicVO update(ClinicVO clinic) {
-        var entity = repository.findById(clinic.getId())
+        var entity = repository.findById(clinic.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         entity.setName(clinic.getName());
         entity.setLogo(clinic.getLogo());
         entity.setGroup(clinic.getGroup());
         entity.setGooglePlaceId(clinic.getGooglePlaceId());
-        entity.setBusinessName(clinic.getBusinessName());
-        entity.setBusinessAddress(clinic.getBusinessAddress());
-        entity.setTaxNumber(clinic.getTaxNumber());
-        entity.setFiscalCode(clinic.getFiscalCode());
-        entity.setShareCapital(clinic.getShareCapital());
 
         return DozerParser.parseObject(repository.save(entity), ClinicVO.class);
     }

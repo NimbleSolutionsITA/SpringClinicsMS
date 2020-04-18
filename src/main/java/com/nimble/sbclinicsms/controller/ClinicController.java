@@ -1,5 +1,8 @@
 package com.nimble.sbclinicsms.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.nimble.sbclinicsms.data.vo.v1.ClinicVO;
 import com.nimble.sbclinicsms.services.ClinicServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +20,39 @@ public class ClinicController {
 
     @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
     public List<ClinicVO> findAll() {
-        return service.findAll();
+        List<ClinicVO> clinics = service.findAll();
+        clinics.forEach(p -> p.add(linkTo(methodOn(ClinicController.class).findById(p.getKey())).withSelfRel()));
+        return clinics;
     }
 
     @GetMapping(
             value = "/{id}",
             produces = {"application/json", "application/xml", "application/x-yaml"})
     public ClinicVO findById(@PathVariable("id") Long id) {
-        return service.findById(id);
+        ClinicVO clinicVO = service.findById(id);
+        clinicVO.add(linkTo(methodOn(ClinicController.class).findById(id)).withSelfRel());
+        if(clinicVO.getGroupId() != null) {
+            clinicVO.add(linkTo(methodOn(ClinicController.class).findById(clinicVO.getGroupId())).withRel("group"));
+        }
+        return clinicVO;
     }
 
     @PostMapping(
             produces = {"application/json", "application/xml", "application/x-yaml"},
             consumes = {"application/json", "application/xml", "application/x-yaml"})
     public ClinicVO create(@RequestBody ClinicVO clinic) {
-        return service.create(clinic);
+        ClinicVO clinicVO = service.create(clinic);
+        clinic.add(linkTo(methodOn(ClinicController.class).findById(clinicVO.getKey())).withSelfRel());
+        return clinic;
     }
 
     @PutMapping(
             produces = {"application/json", "application/xml", "application/x-yaml"},
             consumes = {"application/json", "application/xml", "application/x-yaml"})
     public ClinicVO update(@RequestBody ClinicVO clinic) {
-        return service.update(clinic);
+        ClinicVO clinicVO = service.update(clinic);
+        clinic.add(linkTo(methodOn(ClinicController.class).findById(clinicVO.getKey())).withSelfRel());
+        return clinic;
     }
 
     @DeleteMapping(value = "/{id}")

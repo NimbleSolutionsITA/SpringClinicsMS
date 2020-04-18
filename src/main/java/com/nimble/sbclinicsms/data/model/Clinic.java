@@ -24,19 +24,27 @@ public class Clinic implements Serializable {
     private String logo;
     @Column(name="google_place_id", nullable = false)
     private String googlePlaceId;
-    @Column(name="business_name", nullable = false, length = 100)
-    private String businessName;
-    @Column(name="business_address", nullable = false, length = 100)
-    private String businessAddress;
-    @Column(name="tax_number", nullable = false, length = 15)
-    private String taxNumber;
-    @Column(name="fiscal_code", length = 15)
-    private String fiscalCode;
-    @Column(name="share_capital", length = 15)
-    private String shareCapital;
 
     public Clinic() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(getId(), clinic.getId()) &&
+                Objects.equals(getName(), clinic.getName()) &&
+                Objects.equals(isGroup, clinic.isGroup) &&
+                Objects.equals(getGroupId(), clinic.getGroupId()) &&
+                Objects.equals(getLogo(), clinic.getLogo()) &&
+                Objects.equals(getGooglePlaceId(), clinic.getGooglePlaceId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId());
     }
 
     public Long getId() {
@@ -85,68 +93,5 @@ public class Clinic implements Serializable {
 
     public void setGooglePlaceId(String googlePlaceId) {
         this.googlePlaceId = googlePlaceId;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
-    }
-
-    public String getBusinessAddress() {
-        return businessAddress;
-    }
-
-    public void setBusinessAddress(String businessAddress) {
-        this.businessAddress = businessAddress;
-    }
-
-    public String getTaxNumber() {
-        return taxNumber;
-    }
-
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
-    }
-
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
-
-    public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
-    }
-
-    public String getShareCapital() {
-        return shareCapital;
-    }
-
-    public void setShareCapital(String shareCapital) {
-        this.shareCapital = shareCapital;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Clinic clinic = (Clinic) o;
-        return Objects.equals(getId(), clinic.getId()) &&
-                Objects.equals(getName(), clinic.getName()) &&
-                Objects.equals(isGroup, clinic.isGroup) &&
-                Objects.equals(getGroupId(), clinic.getGroupId()) &&
-                Objects.equals(getLogo(), clinic.getLogo()) &&
-                Objects.equals(getGooglePlaceId(), clinic.getGooglePlaceId()) &&
-                Objects.equals(getBusinessName(), clinic.getBusinessName()) &&
-                Objects.equals(getBusinessAddress(), clinic.getBusinessAddress()) &&
-                Objects.equals(getTaxNumber(), clinic.getTaxNumber()) &&
-                Objects.equals(getFiscalCode(), clinic.getFiscalCode()) &&
-                Objects.equals(getShareCapital(), clinic.getShareCapital());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
     }
 }

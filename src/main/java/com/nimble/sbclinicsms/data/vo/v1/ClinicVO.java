@@ -1,35 +1,60 @@
 package com.nimble.sbclinicsms.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ClinicVO implements Serializable {
+@JsonPropertyOrder({ "id", "name" })
+public class ClinicVO extends RepresentationModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @Mapping("id")
+    @JsonProperty("id")
+
+    private Long key;
 
     private String name;
     private Boolean isGroup;
     private Long groupId;
     private String logo;
     private String googlePlaceId;
-    private String businessName;
-    private String businessAddress;
-    private String taxNumber;
-    private String fiscalCode;
-    private String shareCapital;
 
     public ClinicVO() {
 
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ClinicVO clinicVO = (ClinicVO) o;
+        return Objects.equals(getKey(), clinicVO.getKey()) &&
+                Objects.equals(getName(), clinicVO.getName()) &&
+                Objects.equals(isGroup, clinicVO.isGroup) &&
+                Objects.equals(getGroupId(), clinicVO.getGroupId()) &&
+                Objects.equals(getLogo(), clinicVO.getLogo()) &&
+                Objects.equals(getGooglePlaceId(), clinicVO.getGooglePlaceId());
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getKey(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId());
+    }
+
+    public Long getKey() {
+        return key;
+    }
+
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -70,68 +95,5 @@ public class ClinicVO implements Serializable {
 
     public void setGooglePlaceId(String googlePlaceId) {
         this.googlePlaceId = googlePlaceId;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
-    }
-
-    public String getBusinessAddress() {
-        return businessAddress;
-    }
-
-    public void setBusinessAddress(String businessAddress) {
-        this.businessAddress = businessAddress;
-    }
-
-    public String getTaxNumber() {
-        return taxNumber;
-    }
-
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
-    }
-
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
-
-    public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
-    }
-
-    public String getShareCapital() {
-        return shareCapital;
-    }
-
-    public void setShareCapital(String shareCapital) {
-        this.shareCapital = shareCapital;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClinicVO clinicVO = (ClinicVO) o;
-        return Objects.equals(getId(), clinicVO.getId()) &&
-                Objects.equals(getName(), clinicVO.getName()) &&
-                Objects.equals(isGroup, clinicVO.isGroup) &&
-                Objects.equals(getGroupId(), clinicVO.getGroupId()) &&
-                Objects.equals(getLogo(), clinicVO.getLogo()) &&
-                Objects.equals(getGooglePlaceId(), clinicVO.getGooglePlaceId()) &&
-                Objects.equals(getBusinessName(), clinicVO.getBusinessName()) &&
-                Objects.equals(getBusinessAddress(), clinicVO.getBusinessAddress()) &&
-                Objects.equals(getTaxNumber(), clinicVO.getTaxNumber()) &&
-                Objects.equals(getFiscalCode(), clinicVO.getFiscalCode()) &&
-                Objects.equals(getShareCapital(), clinicVO.getShareCapital());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId(), getBusinessName(), getBusinessAddress(), getTaxNumber(), getFiscalCode(), getShareCapital());
     }
 }
