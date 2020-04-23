@@ -3,6 +3,7 @@ package com.nimble.sbclinicsms.data.vo.v1;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
+import com.nimble.sbclinicsms.data.model.Clinic;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.hateoas.RepresentationModel;
@@ -17,17 +18,15 @@ public class ClinicVO extends RepresentationModel implements Serializable {
 
     @Mapping("id")
     @JsonProperty("id")
-
     private Long key;
 
     private String name;
     private Boolean isGroup;
-    private Long groupId;
+    private Clinic parentGroup;
     private String logo;
     private String googlePlaceId;
 
     public ClinicVO() {
-
     }
 
     @Override
@@ -39,14 +38,14 @@ public class ClinicVO extends RepresentationModel implements Serializable {
         return Objects.equals(getKey(), clinicVO.getKey()) &&
                 Objects.equals(getName(), clinicVO.getName()) &&
                 Objects.equals(isGroup, clinicVO.isGroup) &&
-                Objects.equals(getGroupId(), clinicVO.getGroupId()) &&
+                Objects.equals(getParentGroup(), clinicVO.getParentGroup()) &&
                 Objects.equals(getLogo(), clinicVO.getLogo()) &&
                 Objects.equals(getGooglePlaceId(), clinicVO.getGooglePlaceId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getKey(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId());
+        return Objects.hash(super.hashCode(), getKey(), getName(), isGroup, getParentGroup(), getLogo(), getGooglePlaceId());
     }
 
     public Long getKey() {
@@ -73,12 +72,12 @@ public class ClinicVO extends RepresentationModel implements Serializable {
         isGroup = group;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public Clinic getParentGroup() {
+        return parentGroup;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setParentGroup(Clinic parentGroup) {
+        this.parentGroup = parentGroup;
     }
 
     public String getLogo() {

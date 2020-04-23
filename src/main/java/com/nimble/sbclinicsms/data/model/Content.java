@@ -1,59 +1,70 @@
-package com.nimble.sbclinicsms.data.vo.v1;
+package com.nimble.sbclinicsms.data.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.github.dozermapper.core.Mapping;
-import org.springframework.hateoas.RepresentationModel;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@JsonPropertyOrder({ "id", "editorialId", "slug", "language", "title", "description", "body" })
-public class TranslationVO extends RepresentationModel implements Serializable {
+@Entity
+@Table(name="content")
+public class Content implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Mapping("id")
-    @JsonProperty("id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long key;
-
+    @Column(nullable =false, length = 100)
     private String title;
+    @Column(nullable = false, length = 100)
     private String slug;
-    private Long editorialId;
+    @Column
     private String description;
+    @Lob
+    @Column
     private String body;
+    @Column(nullable = false, length = 5)
     private String language;
 
-    public TranslationVO() {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "editorial_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Editorial editorial;
+
+    public Content() {
+
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        TranslationVO that = (TranslationVO) o;
-        return Objects.equals(getKey(), that.getKey()) &&
+        Content that = (Content) o;
+        return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getTitle(), that.getTitle()) &&
                 Objects.equals(getSlug(), that.getSlug()) &&
-                Objects.equals(getEditorialId(), that.getEditorialId()) &&
                 Objects.equals(getDescription(), that.getDescription()) &&
                 Objects.equals(getBody(), that.getBody()) &&
-                Objects.equals(getLanguage(), that.getLanguage());
+                Objects.equals(getLanguage(), that.getLanguage()) &&
+                Objects.equals(getEditorial(), that.getEditorial());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getKey(), getTitle(), getSlug(), getEditorialId(), getDescription(), getBody(), getLanguage());
+        return Objects.hash(getId(), getTitle(), getSlug(), getDescription(), getBody(), getLanguage(), getEditorial());
     }
 
-    public Long getKey() {
-        return key;
+    public Long getId() {
+        return id;
     }
 
-    public void setKey(Long key) {
-        this.key = key;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -70,14 +81,6 @@ public class TranslationVO extends RepresentationModel implements Serializable {
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public Long getEditorialId() {
-        return editorialId;
-    }
-
-    public void setEditorialId(Long editorialId) {
-        this.editorialId = editorialId;
     }
 
     public String getDescription() {
@@ -102,5 +105,13 @@ public class TranslationVO extends RepresentationModel implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Editorial getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(Editorial editorial) {
+        this.editorial = editorial;
     }
 }

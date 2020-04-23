@@ -21,7 +21,12 @@ public class ClinicController {
     @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
     public List<ClinicVO> findAll() {
         List<ClinicVO> clinics = service.findAll();
-        clinics.forEach(p -> p.add(linkTo(methodOn(ClinicController.class).findById(p.getKey())).withSelfRel()));
+        clinics.forEach(p -> {
+            p.add(linkTo(methodOn(ClinicController.class).findById(p.getKey())).withSelfRel());
+            if(p.getParentGroup() != null) {
+                p.add(linkTo(methodOn(ClinicController.class).findById(p.getParentGroup().getId())).withRel("group"));
+            }
+        });
         return clinics;
     }
 
@@ -31,8 +36,8 @@ public class ClinicController {
     public ClinicVO findById(@PathVariable("id") Long id) {
         ClinicVO clinicVO = service.findById(id);
         clinicVO.add(linkTo(methodOn(ClinicController.class).findById(id)).withSelfRel());
-        if(clinicVO.getGroupId() != null) {
-            clinicVO.add(linkTo(methodOn(ClinicController.class).findById(clinicVO.getGroupId())).withRel("group"));
+        if(clinicVO.getParentGroup() != null) {
+            clinicVO.add(linkTo(methodOn(ClinicController.class).findById(clinicVO.getParentGroup().getId())).withRel("group"));
         }
         return clinicVO;
     }

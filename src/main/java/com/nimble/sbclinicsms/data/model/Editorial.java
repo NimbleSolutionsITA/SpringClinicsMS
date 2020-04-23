@@ -1,5 +1,9 @@
 package com.nimble.sbclinicsms.data.model;
 
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,10 +20,17 @@ public class Editorial implements Serializable {
 
     @Column(nullable = false, length = 100)
     private String section;
-    @Column(name="clinic_id")
-    private Long clinicId;
-    @Column(name="parent_id")
-    private Long parentId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "clinic_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Clinic clinic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    @JsonIgnore
+    private Editorial parent;
 
     public Editorial() {
 
@@ -32,13 +43,13 @@ public class Editorial implements Serializable {
         Editorial editorial = (Editorial) o;
         return Objects.equals(getId(), editorial.getId()) &&
                 Objects.equals(getSection(), editorial.getSection()) &&
-                Objects.equals(getClinicId(), editorial.getClinicId()) &&
-                Objects.equals(getParentId(), editorial.getParentId());
+                Objects.equals(getClinic(), editorial.getClinic()) &&
+                Objects.equals(getParent(), editorial.getParent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSection(), getClinicId(), getParentId());
+        return Objects.hash(getId(), getSection(), getClinic(), getParent());
     }
 
     public Long getId() {
@@ -57,19 +68,19 @@ public class Editorial implements Serializable {
         this.section = section;
     }
 
-    public Long getClinicId() {
-        return clinicId;
+    public Clinic getClinic() {
+        return clinic;
     }
 
-    public void setClinicId(Long clinicId) {
-        this.clinicId = clinicId;
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Editorial getParent() {
+        return parent;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParent(Editorial parent) {
+        this.parent = parent;
     }
 }

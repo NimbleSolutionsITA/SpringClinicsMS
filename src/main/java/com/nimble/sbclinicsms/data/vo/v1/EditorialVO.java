@@ -3,12 +3,16 @@ package com.nimble.sbclinicsms.data.vo.v1;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
+import com.nimble.sbclinicsms.data.model.Clinic;
+import com.nimble.sbclinicsms.data.model.Editorial;
+import com.nimble.sbclinicsms.data.model.Content;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
-@JsonPropertyOrder({ "id", "section", "clinic_id", "parent_id" })
+@JsonPropertyOrder({ "id", "section", "clinic", "parent" })
 public class EditorialVO extends RepresentationModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,8 +23,10 @@ public class EditorialVO extends RepresentationModel implements Serializable {
     private Long key;
 
     private String section;
-    private Long clinicId;
-    private Long parentId;
+    private Clinic clinic;
+    private Editorial parent;
+
+    private Set<Content> contents;
 
     public EditorialVO() {
 
@@ -34,13 +40,14 @@ public class EditorialVO extends RepresentationModel implements Serializable {
         EditorialVO that = (EditorialVO) o;
         return Objects.equals(getKey(), that.getKey()) &&
                 Objects.equals(getSection(), that.getSection()) &&
-                Objects.equals(getClinicId(), that.getClinicId()) &&
-                Objects.equals(getParentId(), that.getParentId());
+                Objects.equals(getClinic(), that.getClinic()) &&
+                Objects.equals(getParent(), that.getParent()) &&
+                Objects.equals(getContents(), that.getContents());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getKey(), getSection(), getClinicId(), getParentId());
+        return Objects.hash(super.hashCode(), getKey(), getSection(), getClinic(), getParent(), getContents());
     }
 
     public Long getKey() {
@@ -59,19 +66,27 @@ public class EditorialVO extends RepresentationModel implements Serializable {
         this.section = section;
     }
 
-    public Long getClinicId() {
-        return clinicId;
+    public Clinic getClinic() {
+        return clinic;
     }
 
-    public void setClinicId(Long clinicId) {
-        this.clinicId = clinicId;
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Editorial getParent() {
+        return parent;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParent(Editorial parent) {
+        this.parent = parent;
+    }
+
+    public Set<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(Set<Content> contents) {
+        this.contents = contents;
     }
 }

@@ -1,5 +1,9 @@
 package com.nimble.sbclinicsms.data.model;
 
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,14 +22,18 @@ public class Media implements Serializable {
     private String title;
     @Column(length = 100)
     private String slug;
-    @Column(nullable = false, name="editorial_id")
-    private Long editorialId;
     @Column(nullable = false, length = 100)
     private String type;
     @Column(nullable = false)
     private String url;
-    @Column(length = 10)
+    @Column(nullable = false, length = 5)
     private String language;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "editorial_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Editorial editorial;
 
     public Media() {
 
@@ -39,15 +47,15 @@ public class Media implements Serializable {
         return Objects.equals(getId(), media.getId()) &&
                 Objects.equals(getTitle(), media.getTitle()) &&
                 Objects.equals(getSlug(), media.getSlug()) &&
-                Objects.equals(getEditorialId(), media.getEditorialId()) &&
                 Objects.equals(getType(), media.getType()) &&
                 Objects.equals(getUrl(), media.getUrl()) &&
-                Objects.equals(getLanguage(), media.getLanguage());
+                Objects.equals(getLanguage(), media.getLanguage()) &&
+                Objects.equals(getEditorial(), media.getEditorial());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getSlug(), getEditorialId(), getType(), getUrl(), getLanguage());
+        return Objects.hash(getId(), getTitle(), getSlug(), getType(), getUrl(), getLanguage(), getEditorial());
     }
 
     public Long getId() {
@@ -74,14 +82,6 @@ public class Media implements Serializable {
         this.slug = slug;
     }
 
-    public Long getEditorialId() {
-        return editorialId;
-    }
-
-    public void setEditorialId(Long editorialId) {
-        this.editorialId = editorialId;
-    }
-
     public String getType() {
         return type;
     }
@@ -104,5 +104,13 @@ public class Media implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Editorial getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(Editorial editorial) {
+        this.editorial = editorial;
     }
 }

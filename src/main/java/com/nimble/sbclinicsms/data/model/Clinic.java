@@ -1,5 +1,9 @@
 package com.nimble.sbclinicsms.data.model;
 
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,12 +22,15 @@ public class Clinic implements Serializable {
     private String name;
     @Column(name="is_group", nullable = false)
     private Boolean isGroup;
-    @Column(name="group_id")
-    private Long groupId;
     @Column(nullable = false, length = 10)
     private String logo;
     @Column(name="google_place_id", nullable = false)
     private String googlePlaceId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    @JsonIgnore
+    private Clinic parentGroup;
 
     public Clinic() {
 
@@ -37,14 +44,14 @@ public class Clinic implements Serializable {
         return Objects.equals(getId(), clinic.getId()) &&
                 Objects.equals(getName(), clinic.getName()) &&
                 Objects.equals(isGroup, clinic.isGroup) &&
-                Objects.equals(getGroupId(), clinic.getGroupId()) &&
                 Objects.equals(getLogo(), clinic.getLogo()) &&
-                Objects.equals(getGooglePlaceId(), clinic.getGooglePlaceId());
+                Objects.equals(getGooglePlaceId(), clinic.getGooglePlaceId()) &&
+                Objects.equals(getParentGroup(), clinic.getParentGroup());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), isGroup, getGroupId(), getLogo(), getGooglePlaceId());
+        return Objects.hash(getId(), getName(), isGroup, getLogo(), getGooglePlaceId(), getParentGroup());
     }
 
     public Long getId() {
@@ -71,14 +78,6 @@ public class Clinic implements Serializable {
         isGroup = group;
     }
 
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
     public String getLogo() {
         return logo;
     }
@@ -93,5 +92,13 @@ public class Clinic implements Serializable {
 
     public void setGooglePlaceId(String googlePlaceId) {
         this.googlePlaceId = googlePlaceId;
+    }
+
+    public Clinic getParentGroup() {
+        return parentGroup;
+    }
+
+    public void setParentGroup(Clinic parentGroup) {
+        this.parentGroup = parentGroup;
     }
 }

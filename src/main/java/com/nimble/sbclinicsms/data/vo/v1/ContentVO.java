@@ -1,46 +1,44 @@
-package com.nimble.sbclinicsms.data.model;
+package com.nimble.sbclinicsms.data.vo.v1;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+import com.nimble.sbclinicsms.data.model.Editorial;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name="translation")
-public class Translation implements Serializable {
+@JsonPropertyOrder({ "id", "editorialId", "slug", "language", "title", "description", "body" })
+public class ContentVO extends RepresentationModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Mapping("id")
+    @JsonProperty("id")
 
-    @Column(nullable =false, length = 100)
+    private Long key;
+
     private String title;
-    @Column(nullable = false, length = 100)
     private String slug;
-    @Column(nullable = false, name="editorial_id")
-    private Long editorialId;
-    @Column
+    private Editorial editorial;
     private String description;
-    @Lob
-    @Column
     private String body;
-    @Column(length = 10)
     private String language;
 
-    public Translation() {
-
+    public ContentVO() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Translation that = (Translation) o;
-        return Objects.equals(getId(), that.getId()) &&
+        if (!super.equals(o)) return false;
+        ContentVO that = (ContentVO) o;
+        return Objects.equals(getKey(), that.getKey()) &&
                 Objects.equals(getTitle(), that.getTitle()) &&
                 Objects.equals(getSlug(), that.getSlug()) &&
-                Objects.equals(getEditorialId(), that.getEditorialId()) &&
+                Objects.equals(getEditorial(), that.getEditorial()) &&
                 Objects.equals(getDescription(), that.getDescription()) &&
                 Objects.equals(getBody(), that.getBody()) &&
                 Objects.equals(getLanguage(), that.getLanguage());
@@ -48,15 +46,15 @@ public class Translation implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getSlug(), getEditorialId(), getDescription(), getBody(), getLanguage());
+        return Objects.hash(super.hashCode(), getKey(), getTitle(), getSlug(), getEditorial(), getDescription(), getBody(), getLanguage());
     }
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getTitle() {
@@ -75,12 +73,12 @@ public class Translation implements Serializable {
         this.slug = slug;
     }
 
-    public Long getEditorialId() {
-        return editorialId;
+    public Editorial getEditorial() {
+        return editorial;
     }
 
-    public void setEditorialId(Long editorialId) {
-        this.editorialId = editorialId;
+    public void setEditorial(Editorial editorial) {
+        this.editorial = editorial;
     }
 
     public String getDescription() {

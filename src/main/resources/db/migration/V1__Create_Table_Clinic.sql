@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS `clinic` (
   `is_group` bit(1) NOT NULL,
   `logo` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `group` (`group_id`),
+  CONSTRAINT `group` FOREIGN KEY (`group_id`) REFERENCES `clinic` (`id`)
 )

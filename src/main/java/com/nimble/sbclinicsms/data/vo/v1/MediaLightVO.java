@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @JsonPropertyOrder({ "id", "editorialId", "slug", "type", "title", "url", "language" })
-public class MediaVO extends RepresentationModel implements Serializable {
+public class MediaLightVO extends RepresentationModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,12 +21,10 @@ public class MediaVO extends RepresentationModel implements Serializable {
 
     private String title;
     private String slug;
-    private Editorial editorial;
     private String url;
     private String type;
-    private String language;
 
-    public MediaVO() {
+    public MediaLightVO() {
     }
 
     @Override
@@ -34,19 +32,17 @@ public class MediaVO extends RepresentationModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        MediaVO mediaVO = (MediaVO) o;
-        return Objects.equals(getKey(), mediaVO.getKey()) &&
-                Objects.equals(getTitle(), mediaVO.getTitle()) &&
-                Objects.equals(getSlug(), mediaVO.getSlug()) &&
-                Objects.equals(getEditorial(), mediaVO.getEditorial()) &&
-                Objects.equals(getUrl(), mediaVO.getUrl()) &&
-                Objects.equals(getType(), mediaVO.getType()) &&
-                Objects.equals(getLanguage(), mediaVO.getLanguage());
+        MediaLightVO that = (MediaLightVO) o;
+        return Objects.equals(getKey(), that.getKey()) &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getSlug(), that.getSlug()) &&
+                Objects.equals(getUrl(), that.getUrl()) &&
+                Objects.equals(getType(), that.getType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getKey(), getTitle(), getSlug(), getEditorial(), getUrl(), getType(), getLanguage());
+        return Objects.hash(super.hashCode(), getKey(), getTitle(), getSlug(), getUrl(), getType());
     }
 
     public Long getKey() {
@@ -73,14 +69,6 @@ public class MediaVO extends RepresentationModel implements Serializable {
         this.slug = slug;
     }
 
-    public Editorial getEditorial() {
-        return editorial;
-    }
-
-    public void setEditorial(Editorial editorial) {
-        this.editorial = editorial;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -95,13 +83,5 @@ public class MediaVO extends RepresentationModel implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 }

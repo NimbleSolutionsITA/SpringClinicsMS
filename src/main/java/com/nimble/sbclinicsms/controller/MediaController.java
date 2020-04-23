@@ -23,7 +23,7 @@ public class MediaController {
         List<MediaVO> medias = service.findAll();
         medias.forEach(p -> {
             p.add(linkTo(methodOn(MediaController.class).findById(p.getKey())).withSelfRel());
-            p.add(linkTo(methodOn(EditorialController.class).findById(p.getEditorialId())).withRel("editorial"));
+            p.add(linkTo(methodOn(EditorialController.class).findById(p.getEditorial().getId())).withRel("editorial"));
         });
         return medias;
     }
@@ -34,7 +34,7 @@ public class MediaController {
     public MediaVO findById(@PathVariable("id") Long id) {
         MediaVO mediaVO = service.findById(id);
         mediaVO.add(linkTo(methodOn(MediaController.class).findById(id)).withSelfRel());
-        mediaVO.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorialId())).withRel("editorial"));
+        mediaVO.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorial().getId())).withRel("editorial"));
         return mediaVO;
     }
 
@@ -44,7 +44,7 @@ public class MediaController {
     public MediaVO create(@RequestBody MediaVO media) {
         MediaVO mediaVO = service.create(media);
         media.add(linkTo(methodOn(MediaController.class).findById(mediaVO.getKey())).withSelfRel());
-        media.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorialId())).withRel("editorial"));
+        media.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorial().getId())).withRel("editorial"));
         return media;
     }
 
@@ -54,7 +54,7 @@ public class MediaController {
     public MediaVO update(@RequestBody MediaVO media) {
         MediaVO mediaVO = service.update(media);
         media.add(linkTo(methodOn(MediaController.class).findById(mediaVO.getKey())).withSelfRel());
-        media.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorialId())).withRel("editorial"));
+        media.add(linkTo(methodOn(EditorialController.class).findById(mediaVO.getEditorial().getId())).withRel("editorial"));
         return media;
     }
 

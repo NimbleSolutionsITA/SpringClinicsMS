@@ -1,6 +1,7 @@
 package com.nimble.sbclinicsms.controller;
 
 import com.nimble.sbclinicsms.data.vo.v1.EditorialVO;
+import com.nimble.sbclinicsms.services.ClinicServices;
 import com.nimble.sbclinicsms.services.EditorialServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,9 @@ public class EditorialController {
         List<EditorialVO> editorials = service.findAll();
         editorials.forEach(p -> {
             p.add(linkTo(methodOn(EditorialController.class).findById(p.getKey())).withSelfRel());
-            p.add(linkTo(methodOn(ClinicController.class).findById(p.getClinicId())).withRel("clinic"));
-            if(p.getParentId() != null) {
-                p.add(linkTo(methodOn(EditorialController.class).findById(p.getParentId())).withRel("parent"));
+            p.add(linkTo(methodOn(ClinicController.class).findById(p.getClinic().getId())).withRel("clinic"));
+            if(p.getParent() != null) {
+                p.add(linkTo(methodOn(EditorialController.class).findById(p.getParent().getId())).withRel("parent"));
             }
         });
         return editorials;
@@ -37,9 +38,9 @@ public class EditorialController {
     public EditorialVO findById(@PathVariable("id") Long id) {
         EditorialVO editorialVO = service.findById(id);
         editorialVO.add(linkTo(methodOn(EditorialController.class).findById(id)).withSelfRel());
-        editorialVO.add(linkTo(methodOn(ClinicController.class).findById(editorialVO.getClinicId())).withRel("clinic"));
-        if(editorialVO.getParentId() != null) {
-            editorialVO.add(linkTo(methodOn(EditorialController.class).findById(editorialVO.getParentId())).withRel("parent"));
+        editorialVO.add(linkTo(methodOn(ClinicController.class).findById(editorialVO.getClinic().getId())).withRel("clinic"));
+        if(editorialVO.getParent() != null) {
+            editorialVO.add(linkTo(methodOn(EditorialController.class).findById(editorialVO.getParent().getId())).withRel("parent"));
         }
         return editorialVO;
     }
